@@ -1,0 +1,250 @@
+<h1 id="vim-commands-guide">Vim Commands Guide</h1>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol type="1">
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#navigation-commands">Navigation Commands</a></li>
+<li><a href="#searching">Searching</a>
+<ul>
+<li><a href="#common-search-commands">Common Search Commands</a></li>
+<li><a href="#using-regular-expressions-regex">Using Regular Expressions (REGEX)</a></li>
+</ul></li>
+<li><a href="#editing-commands">Editing Commands</a></li>
+<li><a href="#vim-registers">Vim Registers</a></li>
+<li><a href="#tabs-and-windows">Tabs and Windows</a></li>
+<li><a href="#buffers">Buffers</a></li>
+<li><a href="#managing-folded-text">Managing Folded Text</a></li>
+<li><a href="#opening-a-terminal">Opening a Terminal</a></li>
+<li><a href="#visual-mode">Visual Mode</a></li>
+<li><a href="#additional-useful-commands">Additional Useful Commands</a></li>
+</ol>
+<h2 id="getting-started">Getting Started</h2>
+<ul>
+<li><p><strong>Open a File</strong>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ex">vim</span> filename</span></code></pre></div></li>
+<li><p><strong>Exit Vim</strong>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>:<span class="ex">q</span>            # Quit</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>:<span class="ex">q</span>!           # Quit without saving</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>:<span class="ex">wq</span>           # Save and quit</span></code></pre></div></li>
+</ul>
+<h2 id="navigation-commands">Navigation Commands</h2>
+<h3 id="basic-navigation">Basic Navigation</h3>
+<ul>
+<li><strong>h</strong>: Move left</li>
+<li><strong>j</strong>: Move down</li>
+<li><strong>k</strong>: Move up</li>
+<li><strong>l</strong>: Move right</li>
+</ul>
+<h3 id="word-navigation">Word Navigation</h3>
+<ul>
+<li><strong>w</strong>: Move to the start of the next word</li>
+<li><strong>b</strong>: Move to the start of the previous word</li>
+<li><strong>e</strong>: Move to the end of the current word</li>
+</ul>
+<h3 id="line-navigation">Line Navigation</h3>
+<ul>
+<li><strong>0</strong>: Move to the beginning of the line</li>
+<li><strong>^</strong>: Move to the first non-blank character of the line</li>
+<li><strong>$</strong>: Move to the end of the line</li>
+</ul>
+<h3 id="page-navigation">Page Navigation</h3>
+<ul>
+<li><strong>Ctrl + f</strong>: Move forward one page</li>
+<li><strong>Ctrl + b</strong>: Move backward one page</li>
+<li><strong>Ctrl + d</strong>: Move down half a page</li>
+<li><strong>Ctrl + u</strong>: Move up half a page</li>
+</ul>
+<h3 id="file-navigation">File Navigation</h3>
+<ul>
+<li><strong>gg</strong>: Go to the top of the file</li>
+<li><strong>G</strong>: Go to the bottom of the file</li>
+<li><strong>:n</strong>: Go to line number <code>n</code> (e.g., <code>:10</code> to go to line 10)</li>
+</ul>
+<h3 id="search-navigation">Search Navigation</h3>
+<ul>
+<li><strong>/</strong>: Search forward for a pattern</li>
+<li><strong>?</strong>: Search backward for a pattern</li>
+<li><strong>n</strong>: Repeat the last search in the same direction</li>
+<li><strong>N</strong>: Repeat the last search in the opposite direction</li>
+</ul>
+<h3 id="jumping-to-marks">Jumping to Marks</h3>
+<ul>
+<li><strong>’a</strong>: Jump to the beginning of line marked with <code>a</code></li>
+<li>**`<code>a**: Jump to the exact position marked with</code>a`</li>
+</ul>
+<h2 id="searching">Searching</h2>
+<h3 id="common-search-commands">Common Search Commands</h3>
+<ol type="1">
+<li><strong>Forward Search</strong>:
+<ul>
+<li><strong>Command</strong>: <code>/pattern</code></li>
+<li><strong>Description</strong>: Searches forward for <code>pattern</code>.</li>
+</ul></li>
+<li><strong>Backward Search</strong>:
+<ul>
+<li><strong>Command</strong>: <code>?pattern</code></li>
+<li><strong>Description</strong>: Searches backward for <code>pattern</code>.</li>
+</ul></li>
+<li><strong>Repeat Search</strong>:
+<ul>
+<li><strong>Command</strong>: <code>n</code></li>
+<li><strong>Description</strong>: Repeats the last search in the same direction.</li>
+</ul></li>
+<li><strong>Repeat Search in Opposite Direction</strong>:
+<ul>
+<li><strong>Command</strong>: <code>N</code></li>
+<li><strong>Description</strong>: Repeats the last search in the opposite direction.</li>
+</ul></li>
+<li><strong>Search for the Word Under Cursor</strong>:
+<ul>
+<li><strong>Command</strong>: <code>*</code></li>
+<li><strong>Description</strong>: Searches forward for the word under the cursor.</li>
+</ul></li>
+<li><strong>Search for the Previous Occurrence of the Word Under Cursor</strong>:
+<ul>
+<li><strong>Command</strong>: <code>#</code></li>
+<li><strong>Description</strong>: Searches backward for the word under the cursor.</li>
+</ul></li>
+<li><strong>Highlight All Matches</strong>:
+<ul>
+<li><strong>Command</strong>: <code>:set hlsearch</code></li>
+<li><strong>Description</strong>: Enables highlighting of all matches for the last search.</li>
+</ul></li>
+<li><strong>Clear Highlights</strong>:
+<ul>
+<li><strong>Command</strong>: <code>:nohlsearch</code></li>
+<li><strong>Description</strong>: Clears the highlighting of the last search.</li>
+</ul></li>
+</ol>
+<h3 id="using-regular-expressions-regex">Using Regular Expressions (REGEX)</h3>
+<ul>
+<li><strong>Basic Usage</strong>:
+<ul>
+<li><p>Vim supports regular expressions for advanced search patterns.</p></li>
+<li><p>For example, to search for lines containing “foo” or “bar”:</p>
+<pre class="vim"><code>/foo\|bar</code></pre></li>
+</ul></li>
+<li><strong>Common Regex Patterns</strong>:
+<ul>
+<li><code>.</code> : Matches any single character.</li>
+<li><code>*</code> : Matches zero or more of the preceding character.</li>
+<li><code>^</code> : Matches the beginning of a line.</li>
+<li><code>$</code> : Matches the end of a line.</li>
+<li><code>[]</code> : Matches any one of the enclosed characters (e.g., <code>[abc]</code> matches <code>a</code>, <code>b</code>, or <code>c</code>).</li>
+<li><code>\d</code> : Matches any digit (equivalent to <code>[0-9]</code>).</li>
+<li><code>\w</code> : Matches any word character (letters, digits, or underscores).</li>
+</ul></li>
+<li><strong>Example Searches</strong>:
+<ul>
+<li><p>To find lines starting with “Error”:</p>
+<pre class="vim"><code>/^Error</code></pre></li>
+<li><p>To find lines containing a three-digit number:</p>
+<pre class="vim"><code>/\d\d\d</code></pre></li>
+</ul></li>
+</ul>
+<h2 id="editing-commands">Editing Commands</h2>
+<h3 id="additional-useful-commands">Additional Useful Commands</h3>
+<ul>
+<li><strong>i</strong>: Enter insert mode before the cursor.</li>
+<li><strong>I</strong>: Enter insert mode at the beginning of the line.</li>
+<li><strong>a</strong>: Enter insert mode after the cursor.</li>
+<li><strong>A</strong>: Enter insert mode at the end of the line.</li>
+<li><strong>o</strong>: Open a new line below the current line.</li>
+<li><strong>O</strong>: Open a new line above the current line.</li>
+<li><strong>Esc</strong>: Exit insert mode.</li>
+</ul>
+<h3 id="saving-and-exiting">Saving and Exiting</h3>
+<ul>
+<li><strong>:w</strong>: Save the file.</li>
+<li><strong>:q</strong>: Quit Vim.</li>
+<li><strong>:wq</strong>: Save and quit.</li>
+<li><strong>:q!</strong>: Quit without saving changes.</li>
+</ul>
+<h3 id="undo-and-redo">Undo and Redo</h3>
+<ul>
+<li><strong>u</strong>: Undo the last change.</li>
+<li><strong>Ctrl + r</strong>: Redo the last undone change.</li>
+</ul>
+<h2 id="vim-registers">Vim Registers</h2>
+<ul>
+<li><p><strong>What are Registers?</strong>: Vim registers are used to store text that you can copy, cut, and paste. Each register can hold a different piece of text.</p></li>
+<li><p><strong>Common Registers</strong>:</p>
+<ul>
+<li><strong>"</strong>: The unnamed register, used for default yank and delete operations.</li>
+<li><strong>0</strong>: The yank register, stores text from the most recent yank operation.</li>
+<li><strong>-</strong>: The small delete register, stores text from the last delete operation that was less than one line.</li>
+<li><strong>a-z</strong>: Named registers, you can explicitly specify them for specific yanks or deletes (e.g., <code>"ay</code>, <code>"bd</code>).</li>
+<li><strong>: (colon)</strong>: Stores the last command line input.</li>
+</ul></li>
+<li><p><strong>Using Registers</strong>:</p>
+<ul>
+<li><strong>Yank (Copy)</strong>: To copy text into a register, use <code>"aY</code> to copy into register <code>a</code>.</li>
+<li><strong>Delete</strong>: To delete text into a register, use <code>"bd</code> to delete into register <code>b</code>.</li>
+<li><strong>Paste</strong>: To paste from a register, use <code>"ap</code> to paste from register <code>a</code>.</li>
+</ul></li>
+</ul>
+<h2 id="tabs-and-windows">Tabs and Windows</h2>
+<h3 id="creating-and-managing-tabs">Creating and Managing Tabs</h3>
+<ul>
+<li><strong>:tabnew</strong>: Open a new tab.</li>
+<li><strong>:tabclose</strong>: Close the current tab.</li>
+<li><strong>:tabnext</strong> or <strong>:tabn</strong>: Move to the next tab.</li>
+<li><strong>:tabprevious</strong> or <strong>:tabp</strong>: Move to the previous tab.</li>
+<li><strong>:tabfirst</strong>: Move to the first tab.</li>
+<li><strong>:tablast</strong>: Move to the last tab.</li>
+</ul>
+<h3 id="creating-and-managing-windows">Creating and Managing Windows</h3>
+<ul>
+<li><strong>:split</strong> or <strong>:sp</strong>: Split the window horizontally.</li>
+<li><strong>:vsplit</strong> or <strong>:vsp</strong>: Split the window vertically.</li>
+<li><strong>Ctrl + w, w</strong>: Switch to the next window.</li>
+<li><strong>Ctrl + w, h/j/k/l</strong>: Navigate to the left/down/up/right window, respectively.</li>
+<li><strong>Ctrl + w, q</strong>: Close the current window.</li>
+</ul>
+<h3 id="resizing-windows">Resizing Windows</h3>
+<ul>
+<li><strong>Ctrl + w, +</strong>: Increase the height of the current window.</li>
+<li><strong>Ctrl + w, -</strong>: Decrease the height of the current window.</li>
+<li><strong>Ctrl + w, &gt;</strong>: Increase the width of the current window.</li>
+<li><strong>Ctrl + w, &lt;</strong>: Decrease the width of the current window.</li>
+</ul>
+<h2 id="buffers">Buffers</h2>
+<ul>
+<li><strong>:ls</strong>: List all open buffers.</li>
+<li><strong>:buffer n</strong> or <strong>:b n</strong>: Switch to buffer number <code>n</code>.</li>
+<li><strong>:bnext</strong> or <strong>:bn</strong>: Switch to the next buffer.</li>
+<li><strong>:bprevious</strong> or <strong>:bp</strong>: Switch to the previous buffer.</li>
+<li><strong>:bdelete n</strong> or <strong>:bd n</strong>: Delete buffer number <code>n</code>.</li>
+</ul>
+<h2 id="managing-folded-text">Managing Folded Text</h2>
+<h3 id="unfolding-commands">Unfolding Commands</h3>
+<ul>
+<li><strong>zo</strong>: Open (unfold) the fold under the cursor.</li>
+<li><strong>zO</strong>: Open all folds at the current level.</li>
+<li><strong>zR</strong>: Open all folds in the current buffer.</li>
+</ul>
+<h3 id="closing-folds">Closing Folds</h3>
+<ul>
+<li><strong>zc</strong>: Close (fold) the fold under the cursor.</li>
+<li><strong>zC</strong>: Close all folds at the current level.</li>
+<li><strong>zM</strong>: Close all folds in the current buffer.</li>
+</ul>
+<h3 id="additional-commands">Additional Commands</h3>
+<ul>
+<li><strong>zd</strong>: Delete the fold under the cursor (permanently removes the fold).</li>
+<li><strong>zf</strong>: Create a fold from the current line to the specified line.</li>
+</ul>
+<h3 id="navigating-folds">Navigating Folds</h3>
+<ul>
+<li><strong>[z</strong>: Move to the previous fold.</li>
+<li><strong>]z</strong>: Move to the next fold.</li>
+</ul>
+<h2 id="opening-a-terminal">Opening a Terminal</h2>
+<ul>
+<li><strong>:terminal</strong>: Open a terminal within the Vim session. You can run shell commands directly in this terminal.</li>
+</ul>
+<h2 id="visual-mode">Visual Mode</h2>
+<ul>
+<li><strong>v</strong>: Enter visual mode to select text.</li>
+<li><strong>V</strong>: Enter visual line mode (select whole lines).</li>
+<li><strong>Ctrl + v</strong>: Enter visual block mode (select rectangular blocks).</li>
+</ul>

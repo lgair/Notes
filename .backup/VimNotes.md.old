@@ -1,0 +1,126 @@
+# Vim Commands Guide
+
+## Navigation Commands
+
+### Basic Navigation
+- **h**: Move left
+- **j**: Move down
+- **k**: Move up
+- **l**: Move right
+
+### Word Navigation
+- **w**: Move to the start of the next word
+- **b**: Move to the start of the previous word
+- **e**: Move to the end of the current word
+
+### Line Navigation
+- **0**: Move to the beginning of the line
+- **^**: Move to the first non-blank character of the line
+- **$**: Move to the end of the line
+
+### Page Navigation
+- **Ctrl + f**: Move forward one page
+- **Ctrl + b**: Move backward one page
+- **Ctrl + d**: Move down half a page
+- **Ctrl + u**: Move up half a page
+
+### File Navigation
+- **gg**: Go to the top of the file
+- **G**: Go to the bottom of the file
+- **:n**: Go to line number `n` (e.g., `:10` to go to line 10)
+
+### Search Navigation
+- **/**: Search forward for a pattern
+- **?**: Search backward for a pattern
+- **n**: Repeat the last search in the same direction
+- **N**: Repeat the last search in the opposite direction
+
+### Jumping to Marks
+- **'a**: Jump to the beginning of line marked with `a`
+- **``a**: Jump to the exact position marked with `a`
+
+## Tabs and Windows
+
+### Creating and Managing Tabs
+- **:tabnew**: Open a new tab.
+- **:tabclose**: Close the current tab.
+- **:tabnext** or **:tabn**: Move to the next tab.
+- **:tabprevious** or **:tabp**: Move to the previous tab.
+- **:tabfirst**: Move to the first tab.
+- **:tablast**: Move to the last tab.
+
+### Creating and Managing Windows
+- **:split** or **:sp**: Split the window horizontally.
+- **:vsplit** or **:vsp**: Split the window vertically.
+- **Ctrl + w, w**: Switch to the next window.
+- **Ctrl + w, h/j/k/l**: Navigate to the left/down/up/right window, respectively.
+- **Ctrl + w, q**: Close the current window.
+
+### Resizing Windows
+- **Ctrl + w, +**: Increase the height of the current window.
+- **Ctrl + w, -**: Decrease the height of the current window.
+- **Ctrl + w, >**: Increase the width of the current window.
+- **Ctrl + w, <**: Decrease the width of the current window.
+
+## Opening a Terminal
+- **:terminal**: Open a terminal within the Vim session. You can run shell commands directly in this terminal.
+
+## Buffers
+- **:ls**: List all open buffers.
+- **:buffer n** or **:b n**: Switch to buffer number `n`.
+- **:bnext** or **:bn**: Switch to the next buffer.
+- **:bprevious** or **:bp**: Switch to the previous buffer.
+- **:bdelete n** or **:bd n**: Delete buffer number `n`.
+
+## Managing Folded Text
+### Unfolding Commands
+- **zo**: Open (unfold) the fold under the cursor.
+- **zO**: Open all folds at the current level.
+- **zR**: Open all folds in the current buffer.
+
+### Closing Folds
+- **zc**: Close (fold) the fold under the cursor.
+- **zC**: Close all folds at the current level.
+- **zM**: Close all folds in the current buffer.
+
+### Additional Commands
+- **zd**: Delete the fold under the cursor (permanently removes the fold).
+- **zf**: Create a fold from the current line to the specified line.
+
+### Navigating Folds
+- **[z**: Move to the previous fold.
+- **]z**: Move to the next fold.
+
+## Additional Useful Commands
+
+### Editing Commands
+- **i**: Enter insert mode before the cursor.
+- **I**: Enter insert mode at the beginning of the line.
+- **a**: Enter insert mode after the cursor.
+- **A**: Enter insert mode at the end of the line.
+- **o**: Open a new line below the current line.
+- **O**: Open a new line above the current line.
+- **Esc**: Exit insert mode.
+
+### Saving and Exiting
+- **:w**: Save the file.
+- **:q**: Quit Vim.
+- **:wq**: Save and quit.
+- **:q!**: Quit without saving changes.
+
+### Undo and Redo
+- **u**: Undo the last change.
+- **Ctrl + r**: Redo the last undone change.
+
+### Visual Mode
+- **v**: Enter visual mode to select text.
+- **V**: Enter visual line mode (select whole lines).
+- **Ctrl + v**: Enter visual block mode (select rectangular blocks).
+
+### Miscellaneous
+- **%**: Jump to the matching brace or parenthesis.
+- **Ctrl + o**: Go back to the previous cursor position.
+- **Ctrl + i**: Go forward to the next cursor position.
+- **:set number**: Show line numbers.
+- **:set relativenumber**: Show relative line numbers.
+
