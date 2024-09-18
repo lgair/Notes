@@ -98,7 +98,11 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # Load additional aliases and functions if they exist
 [ -f ~/.bash_aliases ] && . ~/.bash_aliases
-[ -e ~/.bash_functions ] && source $HOME/.bash_functions
+
+# Source custom Bash functions
+for file in $HOME/bash_functions/*.sh; do
+    [ -r "$file" ] && source "$file"
+done
 
 # Enable programmable completion features
 if ! shopt -oq posix; then

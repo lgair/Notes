@@ -25,11 +25,23 @@ Plugin 'preservim/nerdtree'
 Plugin 'preservim/tagbar'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'derekwyatt/vim-fswitch'
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 Plugin 'plasticboy/vim-markdown'
 
 call vundle#end()            " Required
 filetype plugin indent on    " Required
+
+" set text wrapping
+set wrap                " Enable line wrapping.
+set linebreak           " Break lines at word boundaries.
+set textwidth=120       " Set maximum width for text.
+set formatoptions+=t    " Automatically format text on typing.
+set breakat=,.;!?       " Allow breaks at these characters.
+
+" set vims memory allocations
+set maxmem=1000000
+set maxmemtot=2000000
+
 
 " Set colorscheme
 autocmd vimenter * ++nested colorscheme gruvbox
@@ -62,6 +74,7 @@ set linebreak
 set scrolloff=1
 set sidescrolloff=5
 syntax enable 
+syntax match bashHereString /<<<\s*\zs.*/ contained
 set wrap
 set number
 set laststatus=2

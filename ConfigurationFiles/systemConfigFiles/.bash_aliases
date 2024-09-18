@@ -1,5 +1,6 @@
 # General
 alias Bourne-Again='source $HOME/.bashrc && echo "sh has been Bourne Again!"'
+alias ba='source $HOME/.bashrc && echo "sh has been Bourne Again!"'
 
 # Python
 alias python='python3'
@@ -10,7 +11,7 @@ alias va='source ./venv/bin/activate'
 # Vim
 alias VIM-Settings='vim ~/.vimrc'
 alias aliases='vim ~/.bash_aliases && Bourne-Again'
-alias functions='vim ~/.bash_functions && Bourne-Again'
+alias editfuncs='vim ~/bash_functions/bash_functions.sh && Bourne-Again'
 
 # Git
 alias gp-fwl='cg && git push --force-with-lease'
@@ -48,6 +49,8 @@ alias JenkinsServer='ssh -p4222 krontech@debian.krontech.ca'
 alias JSpackages='npm list -g --depth=0'
 alias submodule-update='git submodule update --init --recursive'
 alias gh='history | grep'
+alias mountSMBShare='sudo mount -t cifs //192.168.1.121/4k12 /media/smb -o username=Production,password=Jacked-Fissure3,uid=1000,gid=1000
+'
 
 # Git aliases
 alias gst='git status'               # Check the status of the git repository
