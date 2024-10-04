@@ -87,6 +87,52 @@ function MarkdownViewer () {
     pandoc "$1" | lynx -stdin
 }
 
+function compress_file() {
+    # Check if the correct number of arguments is provided
+    if [ $# -lt 1 ]; then
+        echo "Usage: compress_file <file_to_compress> [threads]"
+        return 1
+    fi
+
+    # Assign the first argument to input_file
+    input_file="$1"
+    
+    # Check if the file exists
+    if [ ! -f "$input_file" ]; then
+        echo "Error: File '$input_file' not found!"
+        return 1
+    fi
+
+    # Assign the second argument to threads, defaulting to 4 if not provided
+    threads="${2:-4}"
+
+    # Create the tar.xz file name
+    tar_file="${input_file}.tar.xz"
+
+    # Start time
+    start_time=$(date +%s)
+
+    # Get the size of the input file for progress calculation
+    input_size=$(du -sb "$input_file" | awk '{print $1}')
+
+    # Compress the file using pv and pixz
+    echo "Compressing '$input_file' using $threads threads with pixz..."
+    
+    tar -cf - "$input_file" | pv -s "$input_size" | pixz -p "$threads" -o "$tar_file"
+
+    # End time
+    end_time=$(date +%s)
+
+    # Calculate total time taken
+    total_time=$((end_time - start_time))
+
+    # Convert total time to hh:mm:ss format
+    printf -v formatted_time "%02d:%02d:%02d" $((total_time / 3600)) $((total_time % 3600 / 60)) $((total_time % 60))
+
+    echo "Compression complete: '$tar_file'"
+    echo "Total time taken: $formatted_time"
+}
+
 function count_dirs() {
     # Function to count directories in a specified path and depth
 
@@ -151,65 +197,6 @@ function clipFile() {
     fi
 }
 
-function dump_pixels() {
-    # Check if the image file is provided
-    if [ "$#" -ne 1 ]; then
-        echo "Usage: dump_pixels <image_file>"
-        return 1
-    fi
-
-    # Assign the input argument to a variable
-    local image_file="$1"
-
-    # Check if the file exists and is a regular file
-    if [ ! -f "$image_file" ]; then
-        echo "Error: File '$image_file' not found."
-        return 1
-    fi
-
-    # Check if ImageMagick's 'convert' command is available
-    if ! command -v convert &> /dev/null; then
-        echo "Error: ImageMagick is not installed. Please install it to proceed."
-        return 1
-    fi
-
-    # Get the image dimensions
-    local dimensions
-    dimensions=$(identify -format "%wx%h" "$image_file")
-    if [ -z "$dimensions" ]; then
-        echo "Error: Unable to read image dimensions."
-        return 1
-    fi
-
-    IFS='x' read -r width height <<< "$dimensions"
-
-    local start_time=$(date +%s)
-
-    for ((i = 0; i < 100; i++)); do
-        local x=$((RANDOM % width))
-        local y=$((RANDOM % height))
-
-        # Get the RGBA value of the pixel
-        rgba=$(convert "$image_file" -crop 1x1+"$x"+"$y" -format "%[pixel:p{0,0}]" info:-)
-        # Strip unwanted characters and convert the RGBA value to decimal
-        rgba=$(echo "$rgba" | tr -d 'rgba()' | tr ',' ' ' | tr -d 's')
-        read -r R G B A <<< "$rgba"
-
-        # Ensure R, G, B, A are valid numbers
-        if [[ ! $R =~ ^[0-9]+$ || ! $G =~ ^[0-9]+$ || ! $B =~ ^[0-9]+$ || ! $A =~ ^[0-9]+$ ]]; then
-            echo "Error: Invalid RGBA values at ($x, $y): $rgba"
-            continue
-        fi
-
-        printf "Coordinates: (%-4d, %-4d), RGBA: (%-3d, %-3d, %-3d, %-3d)\n" "$x" "$y" "$R" "$G" "$B" "$A"
-    done
-
-    # End timer
-    local end_time=$(date +%s)
-    local total_time=$((end_time - start_time))
-
-    echo "Total time taken: $total_time seconds"
-}
 
 parse_image_header() {
     local image_file="$1"
@@ -320,3 +307,63 @@ dump_image_header() {
 
 # Example usage:
 # dump_image_header path/to/your/image.tiff
+
+function dump_pixels() {
+    # Check if the image file is provided
+    if [ "$#" -ne 1 ]; then
+        echo "Usage: dump_pixels <image_file>"
+        return 1
+    fi
+
+    # Assign the input argument to a variable
+    local image_file="$1"
+
+    # Check if the file exists and is a regular file
+    if [ ! -f "$image_file" ]; then
+        echo "Error: File '$image_file' not found."
+        return 1
+    fi
+
+    # Check if ImageMagick's 'convert' command is available
+    if ! command -v convert &> /dev/null; then
+        echo "Error: ImageMagick is not installed. Please install it to proceed."
+        return 1
+    fi
+
+    # Get the image dimensions
+    local dimensions
+    dimensions=$(identify -format "%wx%h" "$image_file")
+    if [ -z "$dimensions" ]; then
+        echo "Error: Unable to read image dimensions."
+        return 1
+    fi
+
+    IFS='x' read -r width height <<< "$dimensions"
+
+    local start_time=$(date +%s)
+
+    for ((i = 0; i < 100; i++)); do
+        local x=$((RANDOM % width))
+        local y=$((RANDOM % height))
+
+        # Get the RGBA value of the pixel
+        rgba=$(convert "$image_file" -crop 1x1+"$x"+"$y" -format "%[pixel:p{0,0}]" info:-)
+        # Strip unwanted characters and convert the RGBA value to decimal
+        rgba=$(echo "$rgba" | tr -d 'rgba()' | tr ',' ' ' | tr -d 's')
+        read -r R G B A <<< "$rgba"
+
+        # Ensure R, G, B, A are valid numbers
+        if [[ ! $R =~ ^[0-9]+$ || ! $G =~ ^[0-9]+$ || ! $B =~ ^[0-9]+$ || ! $A =~ ^[0-9]+$ ]]; then
+            echo "Error: Invalid RGBA values at ($x, $y): $rgba"
+            continue
+        fi
+
+        printf "Coordinates: (%-4d, %-4d), RGBA: (%-3d, %-3d, %-3d, %-3d)\n" "$x" "$y" "$R" "$G" "$B" "$A"
+    done
+
+    # End timer
+    local end_time=$(date +%s)
+    local total_time=$((end_time - start_time))
+
+    echo "Total time taken: $total_time seconds"
+}

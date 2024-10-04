@@ -183,3 +183,21 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_enable_inlay_hints = 1
 hi link YcmInlayHint Comment
 nnoremap <silent> <localleader>h <Plug>(YCMToggleInlayHints)
+
+"CSV Settings
+
+" Set comma as a keyword character
+autocmd FileType csv setlocal iskeyword+=,
+
+" Show list characters for better visibility (optional)
+autocmd FileType csv setlocal list
+autocmd FileType csv setlocal listchars=tab:>-,trail:*
+
+" Enable syntax highlighting for CSV
+autocmd FileType csv syntax on
+
+" Set the default separator for CSV files
+autocmd FileType csv setlocal formatoptions+=ro
+
+" Set CSV header colour to blue
+highlight csvHeader ctermfg=Blue guifg=Blue
