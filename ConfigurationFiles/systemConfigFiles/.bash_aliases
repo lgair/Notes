@@ -74,4 +74,4 @@ alias llb='ls -lah --block-size=MB'
 
 # Custom shortcuts
 alias weather='curl wttr.in'         # Get current weather
-alias up='sudo apt update && sudo apt upgrade'  # Update package list and upgrade
+alias up='sudo apt update && sudo apt upgrade -y'  # Update package list and upgrade
