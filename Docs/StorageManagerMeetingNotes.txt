@@ -1,0 +1,30 @@
+Friday October 11th 2024
+
+Storage Manager via API notes
+
+- 6 setting sfor camera config 3 for smb 
+
+use jthread
+or future and promises for iteration 2
+thread ID object if it exists blocks any other operation
+
+list files - Some form of dictuonary to store result
+ - Store some sort of parameter to funct with the same path, return the
+   next iteration of results
+
+Take care for cancellations:
+    - ls for loop going thru files
+    - does std::filesystem sort files or return them unordered?
+    - sort abort?
+    - operations need to be abortable.
+    - Dont kill thread
+    - threaded solution aborts for all operation
+
+Notify after the information/result has been moved to the cached member of
+the object AND after the operation has been validated to not be cancelled.
+
+Use a mutex to ensure that IFF you're in the last part of the work thread
+cancellation is not possible. IE after notify event has been sent, reject
+the cancellation.
+
+Cancellation ALWAYS blockiong & returns immediately.
