@@ -53,25 +53,26 @@ alias mountSMBShare='sudo mount -t cifs //192.168.1.121/4k12 /media/smb -o usern
 '
 
 # Git aliases
-alias gst='git status'               # Check the status of the git repository
-alias gco='git checkout'             # Checkout a branch or file
-alias gcm='git commit -m'            # Commit with a message
-alias gpr='git pull'                 # Pull latest changes
-alias gps='git push'                 # Push latest changes
+alias gst='git status'                  # Check the status of the git repository
+alias gco='git checkout'                # Checkout a branch or file
+alias gcm='git commit -m'               # Commit with a message
+alias gpr='git pull'                    # Pull latest changes
+alias gps='git push'                    # Push latest changes
 
 # Navigation aliases
-alias ..='cd ..'                     # Go up one directory
-alias ...='cd ../..'                 # Go up two directories
-alias docs='cd ~/Documents'          # Navigate to Documents
+alias ..='cd ..'                        # Go up one directory
+alias ...='cd ../..'                    # Go up two directories
+alias docs='cd ~/Documents'             # Navigate to Documents
+alias Notes='cd ~/CLionProjects/Notes'  # Navigate to personal notes
 
 # System commands
-alias ll='ls -la'                    # List all files
-alias c='clear'                      # Clear the terminal
-alias h='history'                    # Show command history
+alias ll='ls -la'                       # List all files
+alias c='clear'                         # Clear the terminal
+alias h='history'                       # Show command history
 alias lt='ls --human-readable --size -1 -S --classify'
 alias la='lt -a'
 alias llb='ls -lah --block-size=MB'
 
 # Custom shortcuts
-alias weather='curl wttr.in'         # Get current weather
+alias weather='curl wttr.in'            # Get current weather
 alias up='sudo apt update && sudo apt upgrade -y'  # Update package list and upgrade
