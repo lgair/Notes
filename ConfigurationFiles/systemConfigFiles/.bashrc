@@ -133,3 +133,6 @@ export PATH='/usr/bin/aarch64-linux-gnu-g++-12':$PATH
 # Editor settings
 export VISUAL=vim
 export EDITOR=vim
+
+# 4k12 Camera Development Settings
+export USBC_4k12Dongle_MACADDR="00:E0:4C:66:10:F0"

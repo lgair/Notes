@@ -197,6 +197,23 @@ function clipFile() {
     fi
 }
 
+get_ip_by_mac() {
+    if [ -z "$1" ]; then
+        echo "Usage: get_ip_by_mac <MAC_ADDRESS>"
+        return 1
+    fi
+
+    local mac_address=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+    
+    # Check the ARP cache for the IP associated with the given MAC address
+    local ip_address=$(arp -n | grep -i "$mac_address" | awk '{print $1}')
+    
+    if [ -n "$ip_address" ]; then
+        echo "IP address for MAC $mac_address: $ip_address"
+    else
+        echo "No IP address found for MAC $mac_address."
+    fi
+}
 
 parse_image_header() {
     local image_file="$1"
