@@ -32,7 +32,7 @@ function timestamp {
 # Function to convert size to human-readable format
 function human_readable_size {
     local size_kb=$1
-    if (( size_kb >= 1073741824 )); then
+    if (( size_kb >= 1073741824)); then
         echo "$(bc <<< "scale=2; $size_kb / (1024*1024*1024)") TB"
     elif (( size_kb >= 1048576 )); then
         echo "$(bc <<< "scale=2; $size_kb / (1024*1024)") GB"
@@ -124,3 +124,4 @@ fi
 
 # Report drive usage
 report_drive_usage
+
