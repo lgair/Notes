@@ -197,21 +197,26 @@ function clipFile() {
     fi
 }
 
-get_ip_by_mac() {
+function FetchIPFromMac() {
     if [ -z "$1" ]; then
-        echo "Usage: get_ip_by_mac <MAC_ADDRESS>"
+        echo "Usage: FetchIPFromMac <MAC_ADDRESS>"
         return 1
     fi
 
     local mac_address=$(echo "$1" | tr '[:upper:]' '[:lower:]')
     
+    # Function to fetch the IP address based on the MAC address
+    function find_ip() {
+        sudo arp-scan --localnet | grep -i "$mac_address" | awk '{print $1}'
+    }
+
     # Check the ARP cache for the IP associated with the given MAC address
-    local ip_address=$(arp -n | grep -i "$mac_address" | awk '{print $1}')
-    
+    local ip_address=$(find_ip)
+
     if [ -n "$ip_address" ]; then
         echo "IP address for MAC $mac_address: $ip_address"
     else
-        echo "No IP address found for MAC $mac_address."
+        echo "Unable to find an IP address for MAC $mac_address."
     fi
 }
 
