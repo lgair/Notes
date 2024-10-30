@@ -7,6 +7,8 @@ DRY_RUN=false # Default to false
 TIME_REPORT=false # Default to false
 DELETE_JOBS=4 # Number of concurrent delete jobs
 LOGFILE="/media/smb/Logs/Cleanup.log" # Change this to your desired log file path
+DIR_COUNT=0
+
 
 # Parse command-line options
 while getopts "nt" opt; do
@@ -58,10 +60,23 @@ function report_drive_usage {
     log "$(timestamp) \"$MAIN_DIRECTORY\" on \"$drive_filesystem\" is utilizing: $(human_readable_size $utilized_size) ($utilization_percentage%) out of $(human_readable_size $drive_size) available."
 }
 
+# Function to delete empty directories
+function delete_empty_dirs {
+    log "$(timestamp) Deleting empty directories:"
+    while IFS= read -r dir; do
+        if [ -z "$(ls -A "$dir")" ]; then
+            log "$(timestamp) Deleting empty directory: $dir"
+            if [ "$DRY_RUN" = false ]; then
+                rmdir "$dir"
+                ((DIR_COUNT++))
+            fi
+        fi
+    done < <(find "$MAIN_DIRECTORY" -mindepth 1 -maxdepth 1 -type d -empty -name '[0-9][0-9][0-9][0-9][0-9]*')
+}
+
 # Function to display directories that would be deleted
 function dry_run {
     log "$(timestamp) Dry run: The following subdirectories would be deleted:"
-    count=0
     total_size=0
 
     # Find and list directories older than the specified days
@@ -71,12 +86,14 @@ function dry_run {
                 log "$(timestamp) $subdir"
                 dir_size=$(du -s "$subdir" | awk '{print $1}')
                 total_size=$((total_size + dir_size))
-                ((count++))
+                ((DIR_COUNT++))
             fi
         done < <(find "$dir" -mindepth 1 -maxdepth 1 -type d)
     done < <(find "$MAIN_DIRECTORY" -mindepth 1 -maxdepth 1 -type d -name '[0-9][0-9][0-9][0-9][0-9]*')
 
-    log "$(timestamp) Total directories that would be deleted: $count"
+    delete_empty_dirs
+
+    log "$(timestamp) Total directories that would be deleted: $DIR_COUNT"
     log "$(timestamp) Total size of directories that would be deleted: $(human_readable_size $total_size)"
 }
 
@@ -88,7 +105,6 @@ fi
 if [ "$DRY_RUN" = true ]; then
     dry_run
 else
-    count=0
     total_size=0
     # Use background processes for multithreading
     while IFS= read -r dir; do
@@ -100,7 +116,7 @@ else
                 total_size=$((total_size + dir_size))
                 rm -rf "$subdir" &
 
-                ((count++))
+                ((DIR_COUNT++))
 
                 # Limit the number of concurrent jobs
                 while [ "$(jobs -r -p | wc -l)" -ge "$DELETE_JOBS" ]; do
@@ -109,9 +125,11 @@ else
             fi
         done < <(find "$dir" -mindepth 1 -maxdepth 1 -type d)
     done < <(find "$MAIN_DIRECTORY" -mindepth 1 -maxdepth 1 -type d -name '[0-9][0-9][0-9][0-9][0-9]*')
-    
+   
+    delet_empty_dirs
+
     wait # Wait for any remaining jobs to complete
-    log "$(timestamp) Total directories deleted: $count"
+    log "$(timestamp) Total directories deleted: $DIR_COUNT"
     log "$(timestamp) Total size of directories deleted: $(human_readable_size $total_size)"
 fi
 
