@@ -66,7 +66,7 @@ alias docs='cd ~/Documents'             # Navigate to Documents
 alias Notes='cd ~/CLionProjects/Notes'  # Navigate to personal notes
 
 # System commands
-alias ll='ls -la'                       # List all files
+alias ll='ls -lah'                      # List all files human readable.
 alias c='clear'                         # Clear the terminal
 alias h='history'                       # Show command history
 alias lt='ls --human-readable --size -1 -S --classify'
