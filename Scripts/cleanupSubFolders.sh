@@ -126,7 +126,7 @@ else
         done < <(find "$dir" -mindepth 1 -maxdepth 1 -type d)
     done < <(find "$MAIN_DIRECTORY" -mindepth 1 -maxdepth 1 -type d -name '[0-9][0-9][0-9][0-9][0-9]*')
    
-    delet_empty_dirs
+    delete_empty_dirs
 
     wait # Wait for any remaining jobs to complete
     log "$(timestamp) Total directories deleted: $DIR_COUNT"
