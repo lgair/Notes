@@ -29,6 +29,8 @@ alias untar='tar -zxvf'  # Corrected tar syntax
 alias mv='mv -i'    # Prompt before overwriting
 alias mvv='mv -iv'  # Prompt before overwriting, verbose output
 alias rm='rm -i'    # Prompt before deleting
+# Prompt once before recursively deleting directory & contents
+alias rmdir='rm -rI'
 
 # System & Device Info
 alias UARTlocation='dmesg | grep tty'
