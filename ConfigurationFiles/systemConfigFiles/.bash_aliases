@@ -23,14 +23,13 @@ alias gitSSHRegex='s|https://(.*?)/|git@\1:|g'
 # File Operations
 alias cp='rsync --progress -ah'
 alias cpv='rsync -ah --info=progress2'
-alias untar='tar -zxvf'  # Corrected tar syntax
+alias untar='tar -zxvf'
+alias diff='diff -y -w  --suppress-common-lines'
 
 # File Management
 alias mv='mv -i'    # Prompt before overwriting
 alias mvv='mv -iv'  # Prompt before overwriting, verbose output
 alias rm='rm -i'    # Prompt before deleting
-# Prompt once before recursively deleting directory & contents
-alias rmdir='rm -rI'
 
 # System & Device Info
 alias UARTlocation='dmesg | grep tty'
@@ -51,8 +50,6 @@ alias JenkinsServer='ssh -p4222 krontech@debian.krontech.ca'
 alias JSpackages='npm list -g --depth=0'
 alias submodule-update='git submodule update --init --recursive'
 alias gh='history | grep'
-alias mountSMBShare='sudo mount -t cifs //192.168.1.121/4k12 /media/smb -o username=Production,password=Jacked-Fissure3,uid=1000,gid=1000
-'
 
 # Git aliases
 alias gst='git status'                  # Check the status of the git repository

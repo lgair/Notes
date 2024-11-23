@@ -4,12 +4,10 @@
 	signingkey = AF7269EB4263F0CE
 [core]
 	editor = vim
-    excludesfile = /home/luke/.gitignore_global
-[credential]
-    helper = store
+	excludesfile = /home/luke/.gitignore_global
 [commit]
 	gpgsign = true
 [tag]
 	gpgsign = true
-[gpg]
-    program = gpg
+[credential]
+	helper = store
