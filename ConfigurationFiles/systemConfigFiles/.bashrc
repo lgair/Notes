@@ -11,6 +11,7 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=2000
+export HISTTIMEFORMAT="%F %T "
 
 # Update window size after each command
 shopt -s checkwinsize
@@ -136,3 +137,4 @@ export EDITOR=vim
 
 # 4k12 Camera Development Settings
 export FourK_Dongle_MACADDR="00:E0:4C:66:10:F0"
+export StarTech_dngl_MACADDR="00:E0:4C:BE:1A:6A"

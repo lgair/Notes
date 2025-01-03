@@ -47,25 +47,30 @@ function extract() {
     esac
 }
 
-# Function to select all files with a specified extension in the given source directory
+# Function to select all files with a specified extension in the given source directory with a specified depth
 function find_ext() {
     local src_dir="."  # Default to current directory
     local ext="$1"  # The first argument is the file extension
+    local depth="$2"  # The second argument is the search depth
 
     # Check if the first argument is actually a directory
     if [[ -d "$1" ]]; then
         src_dir="$1"  # If it's a directory, set it as the source directory
         ext="$2"  # The second argument is the file extension
+        depth="$3"  # The third argument is the search depth
     fi
 
     # Validate the extension
     if [[ -z "$ext" ]]; then
-        echo "Usage: find_ext [source_directory] <extension>"
+        echo "Usage: find_ext [source_directory] <extension> [depth]"
         return 1
     fi
 
-    # Use ls -lah and grep to filter files by regex, then return the list
-    ls -lah "$src_dir" | grep -E ".*\.${ext}$" | awk '{print $9}'
+    # Set depth to a default value if not provided
+    depth="${depth:-1}"  # Default to 1 if depth is not specified
+
+    # Use find to search for files with the specified extension and depth
+    find "$src_dir" -maxdepth "$depth" -type f -name "*.${ext}"
 }
 
 # Usage examples
@@ -90,16 +95,16 @@ function MarkdownViewer () {
 function compress_file() {
     # Check if the correct number of arguments is provided
     if [ $# -lt 1 ]; then
-        echo "Usage: compress_file <file_to_compress> [threads]"
+        echo "Usage: compress_file <file_or_directory_to_compress> [threads]"
         return 1
     fi
 
-    # Assign the first argument to input_file
-    input_file="$1"
+    # Assign the first argument to input_path
+    input_path="$1"
     
-    # Check if the file exists
-    if [ ! -f "$input_file" ]; then
-        echo "Error: File '$input_file' not found!"
+    # Check if the path exists
+    if [ ! -e "$input_path" ]; then
+        echo "Error: Path '$input_path' not found!"
         return 1
     fi
 
@@ -107,18 +112,18 @@ function compress_file() {
     threads="${2:-4}"
 
     # Create the tar.xz file name
-    tar_file="${input_file}.tar.xz"
+    tar_file="${input_path}.tar.xz"
 
     # Start time
     start_time=$(date +%s)
 
-    # Get the size of the input file for progress calculation
-    input_size=$(du -sb "$input_file" | awk '{print $1}')
+    # Get the size of the input path for progress calculation
+    input_size=$(du -sb "$input_path" | awk '{print $1}')
 
-    # Compress the file using pv and pixz
-    echo "Compressing '$input_file' using $threads threads with pixz..."
+    # Compress the file or directory using pv and pixz
+    echo "Compressing '$input_path' using $threads threads with pixz..."
     
-    tar -cf - "$input_file" | pv -s "$input_size" | pixz -p "$threads" -o "$tar_file"
+    tar -cf - -C "$(dirname "$input_path")" "$(basename "$input_path")" | pv -s "$input_size" | pixz -p "$threads" -o "$tar_file"
 
     # End time
     end_time=$(date +%s)
@@ -325,6 +330,52 @@ dump_image_header() {
     # Dump the header based on the determined size
     echo "Header of image file '$image_file':"
     hexdump -C "$image_file" | head -n $((header_size / 16 + 1))
+}
+
+function copySMBPassword() {
+    local file="/etc/smb/smb-credentials"
+
+    # Check if the credentials file exists
+    if [[ ! -f "$file" ]]; then
+        echo "Error: File $file does not exist."
+        return 1
+    fi
+
+    # Default to line 2 if no argument is provided
+    local line=${1:-2}
+
+    # Extract the password from the specified line and copy to clipboard
+    local password
+    password=$(sudo awk -F'=' "NR==$line {gsub(/^ +| +$/, \"\", \$2); print \$2}" "$file")
+
+    if [[ -z "$password" ]]; then
+        echo "Error: No password found on line $line."
+        return 1
+    fi
+
+    echo -n "$password" | pbcopy
+    echo "Password from line $line copied to clipboard."
+}
+
+check_branches() {
+    # Check if any branch names were provided
+    if [ "$#" -eq 0 ]; then
+        echo "Usage: check_branches <branch1> <branch2> ... <branchN>"
+        return 1
+    fi
+
+    # Iterate over the list of branches provided as command line arguments
+    for branch in "$@"; do
+        # Check if the branch exists in the local repository
+        if git show-ref --verify --quiet refs/heads/"$branch"; then
+            echo "Branch '$branch' exists locally."
+        # Check if the branch exists in the remote repository
+        elif git ls-remote --heads origin "$branch" | grep -q "$branch"; then
+            echo "Branch '$branch' exists in remote."
+        else
+            echo "Branch '$branch' does not exist."
+        fi
+    done
 }
 
 # Example usage:
