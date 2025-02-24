@@ -85,8 +85,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias bin='cd /usr/bin'
     alias storage='cd /media/nvme'
     alias cl_storage='sudo rm -rf vid_*'
-    alias gui='bin && sudo ./chronos5-gui -platform chronos'
-    alias ctrl_start='sudo cp ~/control /usr/bin && bin && sudo ./control' 
+    alias _gui_start='bin && sudo ./chronos5-gui -platform chronos'
+    alias _ctrl_start='sudo cp ~/control /usr/bin && bin && sudo ./control' 
 fi
 
 # colored GCC warnings and errors
