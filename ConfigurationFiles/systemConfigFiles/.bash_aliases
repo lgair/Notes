@@ -2,6 +2,9 @@
 alias Bourne-Again='source $HOME/.bashrc && echo "sh has been Bourne Again!"'
 alias ba='source $HOME/.bashrc && echo "sh has been Bourne Again!"'
 
+# CMake
+alias cmake='/home/luke/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake'
+
 # Python
 alias python='python3'
 alias py='python'
@@ -75,3 +78,6 @@ alias llb='ls -lah --block-size=MB'
 # Custom shortcuts
 alias weather='curl wttr.in'            # Get current weather
 alias up='sudo apt update && sudo apt upgrade -y'  # Update package list and upgrade
+
+# Minicom stuff
+alias minicom='minicom -con'

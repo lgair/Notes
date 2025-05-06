@@ -6,7 +6,7 @@
 	editor = vim
     excludesfile = /home/luke/.gitignore_global
 [credential]
-    helper = store
+	helper = store
 [commit]
 	gpgsign = true
 [tag]
