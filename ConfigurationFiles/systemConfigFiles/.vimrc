@@ -35,7 +35,7 @@ filetype plugin indent on    " Required
 " set text wrapping
 set wrap                " Enable line wrapping.
 set linebreak           " Break lines at word boundaries.
-set textwidth=120       " Set maximum width for text.
+set textwidth=160       " Set maximum width for text.
 set formatoptions+=t    " Automatically format text on typing.
 set breakat=,.;!?       " Allow breaks at these characters.
 

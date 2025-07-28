@@ -1,7 +1,7 @@
 [user]
 	email = 31808318+lgair@users.noreply.github.com
 	name = LukeGair
-	signingkey = AF7269EB4263F0CE
+	signingkey = B133980D7AC831076E7A3997D8251CF14F6DDD54
 [core]
 	editor = vim
     excludesfile = /home/luke/.gitignore_global

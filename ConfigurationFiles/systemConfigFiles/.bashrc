@@ -138,6 +138,7 @@ export EDITOR=vim
 # 4k12 Camera Development Settings
 export FourK_Dongle_MACADDR="00:E0:4C:66:10:F0"
 export StarTech_dngl_MACADDR="00:E0:4C:BE:1A:6A"
+export Eng_calibration_MACADDR="B8:1E:A4:1A:C2:1D"
 
 # Export path to jetbrains installed cmake exec.
 export PATH='/home/luke/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake':$PATH
