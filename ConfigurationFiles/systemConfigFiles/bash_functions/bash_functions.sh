@@ -258,40 +258,31 @@ parse_image_header() {
         image/gif)
             header_size=6  # GIF header size
             ;;
-        image/tiff | image/x-tiff)
+        image/tiff | image/x-tiff | image/dng)
             local byte_order=$(dd if="$image_file" bs=1 count=2 2>/dev/null | hexdump -e '1/1 "%02x"')
             if [[ "$byte_order" == "49" ]]; then
                 # Little-endian (II)
                 header_size=8
-                local ifd_offset=$(dd if="$image_file" bs=1 skip=4 count=4 2>/dev/null | hexdump -e '1/1 "%02x"')
-                ifd_offset=$(printf "%d" "0x$ifd_offset")
-                header_size=$((header_size + ifd_offset))
             elif [[ "$byte_order" == "4d" ]]; then
                 # Big-endian (MM)
                 header_size=8
-                local ifd_offset=$(dd if="$image_file" bs=1 skip=4 count=4 2>/dev/null | hexdump -e '1/1 "%02x"')
-                ifd_offset=$(printf "%d" "0x$ifd_offset")
-                header_size=$((header_size + ifd_offset))
             else
-                echo "Warning: Unknown byte order in TIFF file."
+                echo "Warning: Unknown byte order in DNG/TIFF file."
                 header_size=64  # Default size if unknown
+                echo "$header_size"
+                return
             fi
-            ;;
-        image/dng)
-            local byte_order=$(dd if="$image_file" bs=1 count=2 2>/dev/null | hexdump -e '1/1 "%02x"')
-            if [[ "$byte_order" == "49" ]]; then
-                header_size=8
-                local ifd_offset=$(dd if="$image_file" bs=1 skip=4 count=4 2>/dev/null | hexdump -e '1/1 "%02x"')
-                ifd_offset=$(printf "%d" "0x$ifd_offset")
-                header_size=$((header_size + ifd_offset))
-            elif [[ "$byte_order" == "4d" ]]; then
-                header_size=8
-                local ifd_offset=$(dd if="$image_file" bs=1 skip=4 count=4 2>/dev/null | hexdump -e '1/1 "%02x"')
-                ifd_offset=$(printf "%d" "0x$ifd_offset")
+
+            # Read the IFD offset
+            local ifd_offset_raw=$(dd if="$image_file" bs=1 skip=4 count=4 2>/dev/null | hexdump -e '1/1 "%02x"')
+            ifd_offset_raw=$(echo "$ifd_offset_raw" | tr -d '[:space:]')  # Remove spaces
+
+            if [[ "$ifd_offset_raw" =~ ^[0-9a-fA-F]+$ ]]; then
+                local ifd_offset=$(printf "%d" "0x$ifd_offset_raw")
                 header_size=$((header_size + ifd_offset))
             else
-                echo "Warning: Unknown byte order in DNG file."
-                header_size=64  # Default size if unknown
+                echo "Warning: Invalid IFD offset '$ifd_offset_raw'."
+                header_size=64  # Default if invalid
             fi
             ;;
         *)
