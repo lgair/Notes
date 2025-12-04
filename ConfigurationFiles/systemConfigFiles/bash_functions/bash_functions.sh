@@ -40,6 +40,7 @@ function extract() {
         *.tar.bz2)  tar xjf "$1" ;;
         *.tar.gz)   tar xzf "$1" ;;
         *.tar.xz)   tar xf "$1" ;;
+        *.xz)       unxz "$1" ;;
         *.zip)      unzip "$1" ;;
         *.rar)      unrar x "$1" ;;
         *.7z)       7z x "$1" ;;

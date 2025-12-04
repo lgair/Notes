@@ -18,7 +18,6 @@ Plugin 'L9'
 Plugin 'morhetz/gruvbox'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-commentary'
-" Plugin 'git://git.wincent.com/command-t.git'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'sheerun/vim-polyglot'
 Plugin 'jiangmiao/auto-pairs'
@@ -26,8 +25,8 @@ Plugin 'preservim/nerdtree'
 Plugin 'preservim/tagbar'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'derekwyatt/vim-fswitch'
-" Plugin 'Valloric/YouCompleteMe'
 Plugin 'plasticboy/vim-markdown'
+Plugin 'dhruvasagar/vim-table-mode'
 
 call vundle#end()            " Required
 filetype plugin indent on    " Required
