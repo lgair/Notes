@@ -13,3 +13,5 @@
 	gpgsign = true
 [gpg]
     program = gpg
+[push]
+	autoSetupRemote = true
