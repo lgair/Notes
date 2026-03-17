@@ -136,6 +136,9 @@ nnoremap <C-F>o :CtrlSFOpen<CR>
 nnoremap <C-F>t :CtrlSFToggle<CR>
 inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
 
+" Remap jk to esc.
+inoremap jk <Esc>
+
 " File switch settings
 au! BufEnter *.cpp let b:fswitchdst = 'hpp,h'
 au! BufEnter *.h let b:fswitchdst = 'cpp,c'
